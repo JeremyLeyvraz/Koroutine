@@ -20,7 +20,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew build -x koverVerify  # skipping koverVerify to not fail if the coverage has lowered
+        run: ./gradlew koverReport -x koverVerify  # skipping koverVerify to not fail if the coverage has lowered
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
         with:
