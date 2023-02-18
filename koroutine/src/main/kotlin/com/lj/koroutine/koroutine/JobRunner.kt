@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 
 /**
- * Interface for a job runner.
+ * Contain methods to run coroutine jobs.
  */
 interface JobRunner {
 
@@ -29,13 +29,13 @@ interface JobRunner {
     fun setDefaultTimeoutForAllScope(timeoutInMillis: Long)
 
     /**
-     * Run a fire and forget a job with a timeout.
+     * Launches a new coroutine without blocking the current thread and returns
+     * a reference to the coroutine as a Job.
      *
-     * @param dispatcherToUse
-     * @param timeoutInMillis
-     * @param method
-     *
-     * @return The running job.
+     * The coroutine is launched in the [dispatcherToUse] context. The default context
+     * is [defaultDispatcher].
+     * The coroutine timeout is [timeoutInMillis]. The default timeout is [defaultTimeout].
+     * The coroutine runs [method].
      */
     fun runFireAndForgetWithTimeout(
         dispatcherToUse: CoroutineDispatcher? = defaultDispatcher,
@@ -44,7 +44,24 @@ interface JobRunner {
     ): Job
 
     /**
-     * Cancel all jobs in the scope.
+     * Launches a new coroutine without blocking the current thread and returns
+     * a reference to the coroutine as a Job.
+     *
+     * The coroutine is launched in the [dispatcherToUse] context. The default context
+     * is [defaultDispatcher].
+     * The coroutine timeout is [timeoutInMillis]. The default timeout is [defaultTimeout].
+     * The coroutine runs [method].
+     * When the timeout is reached, [callback] is run.
+     */
+    fun runFireAndForgetWithTimeoutAndCallbackWhenError(
+        dispatcherToUse: CoroutineDispatcher? = defaultDispatcher,
+        timeoutInMillis: Long? = defaultTimeout,
+        method: suspend () -> Unit,
+        callback: suspend () -> Unit
+    ): Job
+
+    /**
+     * Cancel all jobs in the current scope.
      */
     fun cancel()
 }

@@ -3,7 +3,7 @@ package com.lj.koroutine.koroutine
 import kotlinx.coroutines.*
 
 /**
- * Run jobs in a custom coroutine with a specific scope.
+ * Contain methods to run coroutine jobs.
  */
 class JobRunnerImpl : JobRunner {
 
@@ -14,50 +14,36 @@ class JobRunnerImpl : JobRunner {
 
     /**
      * Default dispatcher used.
-     * Back property.
      */
-    private var _defaultDispatcher = DEFAULT_DISPATCHER
-
-    /**
-     * Default dispatcher used.
-     * Public property.
-     */
-    override val defaultDispatcher: CoroutineDispatcher get() = _defaultDispatcher
+    override var defaultDispatcher: CoroutineDispatcher = DEFAULT_DISPATCHER
 
     /**
      * Default timeout in milliseconds.
-     * Back property.
      */
-    private var _defaultTimeout = DEFAULT_TIMEOUT // 10 seconds
+    override var defaultTimeout: Long = DEFAULT_TIMEOUT
 
     /**
-     * Default timeout in milliseconds.
-     * Public property.
-     */
-    override val defaultTimeout: Long get() = _defaultTimeout
-
-    /**
-     * Set a default dispatcher for all coroutines launched in the scope.
-     *
-     * @param dispatcherToUse Dispatcher to use by default.
+     * Set a [dispatcherToUse] for all coroutines launched in the scope.
      */
     override fun setDefaultDispatcherForAllScope(dispatcherToUse: CoroutineDispatcher) {
-        _defaultDispatcher = dispatcherToUse
+        defaultDispatcher = dispatcherToUse
     }
 
     /**
-     * Set a default timeout for all coroutines launched in the scope.
-     *
-     * @param timeoutInMillis Timeout in milliseconds to use by default.
+     * Set a [timeoutInMillis] timeout for all coroutines launched in the scope.
      */
     override fun setDefaultTimeoutForAllScope(timeoutInMillis: Long) {
-        _defaultTimeout = timeoutInMillis
+        defaultTimeout = timeoutInMillis
     }
 
     /**
-     * Run a fire and forget a job.
+     * Launches a new coroutine without blocking the current thread and returns
+     * a reference to the coroutine as a Job.
      *
-     * @return The running job.
+     * The coroutine is launched in the [dispatcherToUse] context. The default context
+     * is [defaultDispatcher].
+     * The coroutine timeout is [timeoutInMillis]. The default timeout is [defaultTimeout].
+     * The coroutine runs [method].
      */
     override fun runFireAndForgetWithTimeout(
         dispatcherToUse: CoroutineDispatcher?,
@@ -75,7 +61,37 @@ class JobRunnerImpl : JobRunner {
     }
 
     /**
-     * Cancel all jobs of the scope.
+     * Launches a new coroutine without blocking the current thread and returns
+     * a reference to the coroutine as a Job.
+     *
+     * The coroutine is launched in the [dispatcherToUse] context. The default context
+     * is [defaultDispatcher].
+     * The coroutine timeout is [timeoutInMillis]. The default timeout is [defaultTimeout].
+     * The coroutine runs [method].
+     * When the timeout is reached, [callback] is run.
+     */
+    override fun runFireAndForgetWithTimeoutAndCallbackWhenError(
+        dispatcherToUse: CoroutineDispatcher?,
+        timeoutInMillis: Long?,
+        method: suspend () -> Unit,
+        callback: suspend () -> Unit
+    ): Job {
+        val dispatcher = dispatcherToUse ?: defaultDispatcher
+        val timeout = timeoutInMillis ?: defaultTimeout
+
+        return scope.launch(dispatcher) {
+            try {
+                withTimeout(timeout) {
+                    method()
+                }
+            } catch (e: TimeoutCancellationException) {
+                callback()
+            }
+        }
+    }
+
+    /**
+     * Cancel all jobs of the current [scope].
      */
     override fun cancel() {
         scope.cancel()
@@ -88,7 +104,7 @@ class JobRunnerImpl : JobRunner {
         const val DEFAULT_TIMEOUT: Long = 10_000
 
         /**
-         * Default dispatchers.
+         * Default dispatcher.
          */
         val DEFAULT_DISPATCHER: CoroutineDispatcher = Dispatchers.Unconfined
     }
