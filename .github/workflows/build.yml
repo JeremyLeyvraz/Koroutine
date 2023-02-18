@@ -22,6 +22,6 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x koverVerify  # skipping koverVerify to not fail if the coverage has lowered
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           files: build/reports/kover/report.xml
