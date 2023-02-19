@@ -42,6 +42,25 @@ class JobRunnerImpl : JobRunner {
      *
      * The coroutine is launched in the [dispatcherToUse] context. The default context
      * is [defaultDispatcher].
+     * The coroutine runs [method].
+     */
+    override fun runFireAndForget(
+        dispatcherToUse: CoroutineDispatcher?,
+        method: suspend () -> Unit
+    ): Job {
+        val dispatcher = dispatcherToUse ?: defaultDispatcher
+
+        return scope.launch(dispatcher) {
+            method()
+        }
+    }
+
+    /**
+     * Launches a new coroutine without blocking the current thread and returns
+     * a reference to the coroutine as a Job.
+     *
+     * The coroutine is launched in the [dispatcherToUse] context. The default context
+     * is [defaultDispatcher].
      * The coroutine timeout is [timeoutInMillis]. The default timeout is [defaultTimeout].
      * The coroutine runs [method].
      */
