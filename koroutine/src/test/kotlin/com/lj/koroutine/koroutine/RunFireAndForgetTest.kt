@@ -37,7 +37,6 @@ class RunFireAndForgetTest {
         var isMethodComplete = false
         var isJobStarted = false
         val sut = JobRunnerImpl()
-        sut.setDefaultDispatcherForAllScope(testDispatcher)
 
         /** Act **/
         val job = sut.runFireAndForget(dispatcherToUse = testDispatcher) {
@@ -69,7 +68,6 @@ class RunFireAndForgetTest {
         var isMethodComplete = false
         var isJobStarted = false
         val sut = JobRunnerImpl()
-        sut.setDefaultDispatcherForAllScope(testDispatcher)
 
         /** Act **/
         val job = sut.runFireAndForget(dispatcherToUse = testDispatcher) {
