@@ -107,5 +107,7 @@ class JobRunnerImpl : JobRunner {
          * Default dispatcher.
          */
         val DEFAULT_DISPATCHER: CoroutineDispatcher = Dispatchers.Unconfined
+
+        val test = ""
     }
 }
