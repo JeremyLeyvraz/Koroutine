@@ -110,6 +110,26 @@ class JobRunnerImpl : JobRunner {
     }
 
     /**
+     * Launches a new coroutine and wait the end.
+     *
+     * The coroutine is launched in the [dispatcherToUse] context.
+     * The default context is [defaultDispatcher].
+     * The coroutine has no timeout.
+     * The coroutine runs [method]
+     */
+    override fun runFireAndWait(
+        dispatcherToUse: CoroutineDispatcher?,
+        method: suspend () -> Unit) {
+        val dispatcher = dispatcherToUse ?: defaultDispatcher
+
+        runBlocking {
+            scope.launch(dispatcher) {
+                method()
+            }.join()
+        }
+    }
+
+    /**
      * Cancel all jobs of the current [scope].
      */
     override fun cancel() {
