@@ -34,6 +34,19 @@ interface JobRunner {
      *
      * The coroutine is launched in the [dispatcherToUse] context. The default context
      * is [defaultDispatcher].
+     * The coroutine runs [method].
+     */
+    fun runFireAndForget(
+        dispatcherToUse: CoroutineDispatcher? = defaultDispatcher,
+        method: suspend () -> Unit
+    ): Job
+
+    /**
+     * Launches a new coroutine without blocking the current thread and returns
+     * a reference to the coroutine as a Job.
+     *
+     * The coroutine is launched in the [dispatcherToUse] context. The default context
+     * is [defaultDispatcher].
      * The coroutine timeout is [timeoutInMillis]. The default timeout is [defaultTimeout].
      * The coroutine runs [method].
      */
