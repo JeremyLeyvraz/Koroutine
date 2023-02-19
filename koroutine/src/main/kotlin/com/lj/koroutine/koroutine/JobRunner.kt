@@ -74,6 +74,18 @@ interface JobRunner {
     ): Job
 
     /**
+     * Launches and waits the end of a coroutine.
+     *
+     * The coroutine is launched in the [dispatcherToUse] context.
+     * The default context is [defaultDispatcher].
+     * The coroutine has no timeout.
+     * The coroutine runs [method]
+     */
+    fun runFireAndWait(
+        dispatcherToUse: CoroutineDispatcher? = defaultDispatcher,
+        method: suspend () -> Unit)
+
+    /**
      * Cancel all jobs in the current scope.
      */
     fun cancel()
