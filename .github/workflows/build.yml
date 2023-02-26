@@ -32,7 +32,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: build/reports/kover/xml/report.xml
+          path: home/runner/work/Koroutine/Koroutine/koroutine/build/reports/kover/xml/report.xml
       - name: Create a file
         run: echo "I won't live long" > my_file.txt
 
