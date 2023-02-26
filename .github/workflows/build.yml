@@ -23,10 +23,10 @@ jobs:
         run: ./gradlew koverReport -x koverVerify  # skipping koverVerify to not fail if the coverage has lowered
       - name: Upload artifact
         uses: actions/upload-artifact@v2
+        run: ls
         with:
           name: my-artifact
           path: build/reports/kover/xml/report.xml
-          if-no-files-found: ls
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
         with:
