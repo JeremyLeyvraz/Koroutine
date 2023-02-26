@@ -22,11 +22,10 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew koverReport -x koverVerify  # skipping koverVerify to not fail if the coverage has lowered
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        run: ls
+        uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: build/reports/kover/xml/report.xml
+          path: build
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
         with:
