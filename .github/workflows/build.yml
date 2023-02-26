@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./work
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -21,10 +24,18 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew koverReport -x koverVerify  # skipping koverVerify to not fail if the coverage has lowered
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          version: "v0.1.15"
+          verbose: true
+          files: work/build/reports/kover/xml/report.xml
+      - uses: actions/checkout@v3
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: build/reports/kover/xml/report.xml
+          path: work/build/reports/kover/xml/report.xml
       - name: Create a file
         run: echo "I won't live long" > my_file.txt
 
