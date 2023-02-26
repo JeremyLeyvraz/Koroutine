@@ -14,6 +14,8 @@ android {
         minSdkVersion 31
         targetSdkVersion 33
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode 1
+        versionName "0.0.1"
     }
 
     kover {
@@ -24,6 +26,14 @@ android {
                 bound {
                     minValue = 10
                 }
+            }
+        }
+    }
+
+    libraryVariants.all { variant ->
+        if (variant.buildType.name == "release") {
+            variant.outputs.each { output ->
+                output.outputFileName = "${archivesBaseName}-v${defaultConfig.versionName}.aar"
             }
         }
     }
