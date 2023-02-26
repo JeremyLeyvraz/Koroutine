@@ -10,6 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
+      uses:
+        working-directory: ./work
       run:
         working-directory: ./work
     steps:
@@ -30,12 +32,12 @@ jobs:
           token: ${{secrets.CODECOV_TOKEN}}
           version: "v0.1.15"
           verbose: true
-          files: work/build/reports/kover/xml/report.xml
+          files: build/reports/kover/xml/report.xml
       - uses: actions/checkout@v3
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: work/build/reports/kover/xml/report.xml
+          path: build/reports/kover/xml/report.xml
       - name: Create a file
         run: echo "I won't live long" > my_file.txt
 
