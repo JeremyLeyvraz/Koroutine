@@ -28,3 +28,11 @@ jobs:
           version: "v0.1.15"
           verbose: true
           files: build/reports/kover/xml/report.xml
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: my-artifact
+          path: build/reports/kover/xml/report.xml
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: build/reports/kover/xml/report.xml
