@@ -26,6 +26,7 @@ jobs:
         with:
           name: my-artifact
           path: build/reports/kover/xml/report.xml
+          if-no-files-found: ls
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
         with:
