@@ -31,8 +31,10 @@ android {
     }
 
     libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFileName = "${archivesBaseName}-v${defaultConfig.versionName}.aar"
+        if (variant.buildType.name == "release") {
+            variant.outputs.each { output ->
+                output.outputFileName = "${archivesBaseName}-v${defaultConfig.versionName}.aar"
+            }
         }
     }
 }
