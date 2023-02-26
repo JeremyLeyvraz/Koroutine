@@ -22,7 +22,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew koverReport -x koverVerify  # skipping koverVerify to not fail if the coverage has lowered
       - name: Upload artifact
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: my-artifact
           path: build/reports/kover/xml/report.xml
