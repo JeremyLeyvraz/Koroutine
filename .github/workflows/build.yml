@@ -33,6 +33,3 @@ jobs:
         with:
           name: my-artifact
           path: build/reports/kover/xml/report.xml
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: build/reports/kover/xml/report.xml
