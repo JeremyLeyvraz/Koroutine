@@ -25,7 +25,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: coverage_report
           path: koroutine/build/reports/kover/html/
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
