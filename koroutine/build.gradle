@@ -24,7 +24,31 @@ android {
             rule {
                 name = "Minimal line coverage rate in percents"
                 bound {
+                    minValue = 80
+                    // change coverage metric to evaluate (LINE, INSTRUCTION, BRANCH)
+                    counter = kotlinx.kover.api.CounterType.LINE
+                    // change counter value (COVERED_COUNT, MISSED_COUNT, COVERED_PERCENTAGE, MISSED_PERCENTAGE)
+                    valueType = kotlinx.kover.api.VerificationValueType.COVERED_PERCENTAGE
+                }
+            }
+            rule {
+                name = "Minimal branch coverage rate in percents"
+                bound {
                     minValue = 10
+                    // change coverage metric to evaluate (LINE, INSTRUCTION, BRANCH)
+                    counter = kotlinx.kover.api.CounterType.BRANCH
+                    // change counter value (COVERED_COUNT, MISSED_COUNT, COVERED_PERCENTAGE, MISSED_PERCENTAGE)
+                    valueType = kotlinx.kover.api.VerificationValueType.COVERED_PERCENTAGE
+                }
+            }
+            rule {
+                name = "Minimal instruction coverage rate in percents"
+                bound {
+                    minValue = 80
+                    // change coverage metric to evaluate (LINE, INSTRUCTION, BRANCH)
+                    counter = kotlinx.kover.api.CounterType.INSTRUCTION
+                    // change counter value (COVERED_COUNT, MISSED_COUNT, COVERED_PERCENTAGE, MISSED_PERCENTAGE)
+                    valueType = kotlinx.kover.api.VerificationValueType.COVERED_PERCENTAGE
                 }
             }
         }
