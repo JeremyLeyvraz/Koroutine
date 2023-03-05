@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  prepare:
+  buildAndTest:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code to specific branch
@@ -20,9 +20,6 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-  buildAndTest:
-    runs-on: ubuntu-latest
-    steps:
       - name: Build with Gradle and tests
         run: ./gradlew koverReport -x koverVerify  # skipping koverVerify to not fail if the coverage has lowered
       - name: Upload artifact
@@ -37,8 +34,5 @@ jobs:
           version: "v0.1.15"
           verbose: true
           files: build/reports/kover/xml/report.xml
-  verifyCodeCoverage:
-    runs-on: ubuntu-latest
-    steps:
       - name: Verify code coverage
         run: ./gradlew koverVerify  # skipping koverVerify to not fail if the coverage has lowered
